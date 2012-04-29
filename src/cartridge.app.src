@@ -1,0 +1,13 @@
+{application, cartridge, [
+	{description, "Game engine"},
+	{vsn, "0.1.0"},
+	{modules, []},
+	{registered, [cartridge_sup]},
+	{applications, [
+		kernel,
+		stdlib,
+		cowboy
+	]},
+	{mod, {cartridge, []}},
+	{env, []}
+]}.

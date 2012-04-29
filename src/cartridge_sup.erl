@@ -1,6 +1,4 @@
-%% Feel free to use, reuse and abuse the code in this file.
-
--module(cowboy_examples_sup).
+-module(cartridge_sup).
 -behaviour(supervisor).
 
 -export([start_link/0]). %% API.

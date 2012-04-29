@@ -1,2 +1,2 @@
 #!/bin/sh
-erl -sname cowboy_examples -pa ebin -pa deps/*/ebin -s cowboy_examples
+erl -sname cartridge -pa ebin -pa deps/*/ebin -s cartridge
