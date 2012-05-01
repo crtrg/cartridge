@@ -1,5 +1,6 @@
 <html>
   <head>
+    <title>web socket demo</title>
     <script type="text/javascript">
       function addStatus(text){
         var date = new Date();
@@ -13,7 +14,7 @@
         }
         if ("WebSocket" in window) {
           // browser supports websockets
-          var ws = new WebSocket("ws://localhost:8080/io");
+          var ws = new WebSocket("ws://" + window.location.host + "/io");
           ws.onopen = function() {
             // websocket is connected
             addStatus("websocket connected!");
