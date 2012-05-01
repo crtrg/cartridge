@@ -1,2 +1,3 @@
 #!/bin/sh
-erl -sname cartridge -pa ebin -pa deps/*/ebin -s cartridge
+PORT=8081 \
+  erl -sname cartridge -pa ebin -pa deps/*/ebin -s cartridge
