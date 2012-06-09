@@ -6,14 +6,21 @@ html, body {
   height: 100%;
 }
 
+$navOffset: 40px;
+$footerOffset: 140px;
+
 #wrapper {
-  padding-top: 40px;
+  padding-top: $navOffset;
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin: 0 auto -4em;
+  margin: 0 auto;
+  margin-bottom: -($navOffset+$footerOffset);
 }
 
 #footer, #footer-push {
-  height: 4em;
+  height: $footerOffset;
+  padding-top: 48px;
 }
+
+
