@@ -1,15 +1,16 @@
 .container
   .row
-    .span8
+    .span6
       %canvas#game-canvas
     .span2
       %ul#user-listing
-    .span2
-      #chat-wrapper
+    .span4
+      #chat-wrapper{:style => 'height:300px'}
         .messages
-
-        .push-chat-footer
       #chat-footer
+        %form.form-inline
+          %input{type: 'text', name: 'message'}
+          %button.btn{type: 'submit'} send
 
 -content_for :foot do
   -# Step 0: Config cartridge
