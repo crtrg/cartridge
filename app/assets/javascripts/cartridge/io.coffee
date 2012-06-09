@@ -1,14 +1,16 @@
 class Cartridge.IO
   constructor: (@socket, @id) ->
     _.extend(this, Backbone.Events)
-    @state = {}
+    @state   = {}
+    @players = new Cartridge.Collections.Players
+
     @socket.onmessage = (event) =>
       data = JSON.parse(event.data)
-      console.log('received', event, event.data, data)
+      # console.log('received', event, event.data, data)
       switch data.method
         when 'init'
           @state = data.state
-          @players = data.players
+          @players.reset data.players
         when 'system'
           # a new system message received
           console.log 'system message received', data.message
@@ -20,8 +22,10 @@ class Cartridge.IO
         else
           console.log("Can't handle", data)
 
+    @ui = new Cartridge.UI(this)
+
   set: (key, value) ->
-    Cartridge.log('Cartridge::IO#set', arguments)
+    # console.log('Cartridge::IO#set', arguments)
     @socket.send JSON.stringify(
       method: 'set'
       args: [key, value]

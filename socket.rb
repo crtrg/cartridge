@@ -8,7 +8,14 @@ require 'json'
 require 'uri'
 require 'logger'
 
-require 'v8'
+# require 'v8'
+
+# load rails env!
+APP_PATH = File.expand_path('../config/application',  __FILE__)
+require File.expand_path('../config/boot',  __FILE__)
+ENV["RAILS_ENV"] ||= "development"
+require APP_PATH
+Rails.application.require_environment!
 
 class Router
   def initialize
@@ -39,10 +46,10 @@ module Cartridge
       @data = {}
     end
 
-    def get_instance(game_id, instance_id, user_id)
+    def get_instance(game_id, instance_id, user)
       @data[game_id] ||= {}
       @data[game_id][instance_id] ||= Cartridge::GameInstance.new
-      Cartridge::UserInstance.new(@data[game_id][instance_id], user_id)
+      Cartridge::UserInstance.new(@data[game_id][instance_id], user)
     end
   end
 
@@ -69,12 +76,12 @@ module Cartridge
       @store[key] = value
     end
 
-    def add_player user_id
-      @players << user_id
+    def add_player user
+      @players << user
     end
 
-    def remove_player user_id
-      @players.delete user_id
+    def remove_player user
+      @players.delete user
     end
 
     def delete(key)
@@ -108,20 +115,29 @@ module Cartridge
     def_delegator :@game, :state
     def_delegator :@game, :players
 
-    def initialize(game_instance, user_id)
+    def initialize(game_instance, user)
       @game = game_instance
-      @user_id = user_id
+      @user = user
+      @user_id = user.id
     end
 
     def subscribe(*args, &block)
       @sid = @game.subscribe(*args, &block)
-      @game.add_player @user_id
+      @game.add_player @user
     end
 
     def quit
       @game.unsubscribe @sid
-      @game.delete @user_id
-      @game.remove_player @user_id
+      @game.delete @user.id
+      @game.remove_player @user
+    end
+  end
+
+  class User
+    attr_accessor :username, :id
+    def initialize id, username
+      @id = id
+      @username = username
     end
   end
 end
@@ -138,7 +154,15 @@ EM.run do
     instance_id = matcher[2]
     user_id     = matcher[3]
 
-    instance = server.get_instance(game_id, instance_id, user_id)
+    # get username from server?
+    user = {username: user_id, id: user_id}
+    if User.exists?(id: user_id)
+      _user = User.find user_id
+      user  = {username: _user.username, id: _user.id}
+    end
+    user = Cartridge::User.new user[:id], user[:username]
+
+    instance = server.get_instance(game_id, instance_id, user)
 
     instance.subscribe do |message|
       puts "Sending #{message.inspect}"

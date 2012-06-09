@@ -1,13 +1,6 @@
-# just controls the canvas
-class Cartridge.UI
-  constructor: ->
-    @canvas   = document.getElementById('game-canvas')
-    @context  = @canvas.getContext('2d')
-    @canvas.width  = '460'
-    @canvas.height = '460'
-
+# initialize the cartridge engine
 Cartridge.boot = (game) ->
-  Cartridge.log('booting', game)
+  # console.log('booting', game)
   ws       = new WebSocket Cartridge.config().socketUrl
   userId   = Cartridge.config().userId
 

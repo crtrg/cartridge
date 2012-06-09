@@ -11,6 +11,9 @@ gem 'devise'
 gem 'unicorn'
 gem 'foreigner'
 
+# data filtering
+gem "profanity_filter"
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

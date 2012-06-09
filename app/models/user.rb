@@ -7,9 +7,12 @@ class User < ActiveRecord::Base
          :token_authenticatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me
+
   # attr_accessible :title, :body
 
   has_many :games, :as => :creator
 
+  validates_exclusion_of :username, :in => %w( admin superuser system ), :message => "Sorry, that name is reserved :("
+  profanity_filter :username
 end

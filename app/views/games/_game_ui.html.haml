@@ -1,0 +1,15 @@
+.container
+  .row
+    .span6
+      %canvas#game-canvas
+      #status
+    .span2
+      %ul#user-listing
+    .span4
+      #chat-wrapper{:style => 'height:430px'}
+        .messages
+      #chat-footer
+        %form.form-inline{onsubmit: 'return false'}
+          %input{type: 'text', name: 'message'}
+          %button.btn{type: 'submit'} send
+
