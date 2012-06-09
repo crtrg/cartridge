@@ -24,10 +24,21 @@
             %code
               :plain
                 var Hello = function(cartridge) {
+                  // the cartridge API
                   this.cartridge = cartridge;
+
+                  // respond to changed state
                   this.cartridge.on('change', this.draw, this);
+
                   this.cartridge.set(this.cartridge.id, this.cartridge.id);
-                  this.ui = new Cartridge.UI();
+
+                  // connect to the cartridge UI elements
+                  this.ui = cartridge.ui;
+
+                  // the game canvas
+                  this.canvas  = this.ui.canvas;
+
+                  // the game canvas' 2d context
                   this.context = this.ui.context;
                 }
 
