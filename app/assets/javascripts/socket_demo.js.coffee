@@ -1,4 +1,4 @@
-$ ->
+window.SocketDemo = ->
   ws = new Connection ''
   ws.onopen = (evt) ->
     $('#status').text('connected')

@@ -3,6 +3,8 @@ Cartridge::Application.routes.draw do
 
   devise_for :users
 
+  match '/demo' => 'socket_demo#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
