@@ -8,7 +8,7 @@ gem 'rails', '3.2.5'
 gem 'pg'
 gem 'therubyracer', :platforms => :ruby
 gem 'devise'
-gem 'puma'
+gem 'unicorn'
 gem 'foreigner'
 
 # data filtering
