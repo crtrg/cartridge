@@ -4,7 +4,7 @@ class DemoGame
 
     @cartridge.on 'change', @draw, this
 
-    setInterval _.bind(@tick, this), Math.floor(Math.random() * 3000 + 1000)
+    setInterval _.bind(@tick, this), 10000 # Math.floor(Math.random() * 3000 + 1000)
 
     @ui = @cartridge.ui
     @context = @ui.context
@@ -23,7 +23,7 @@ class DemoGame
   draw: ->
     @context.clearRect 0, 0, @canvas.width, @canvas.height
     @cartridge.each (object, id) =>
-      console.log('draw', id, object)
+      # console.log('draw', id, object)
       if id == @cartridge.id
         @context.fillStyle = '#0f0'
         @drawShape object.x, object.y, 30

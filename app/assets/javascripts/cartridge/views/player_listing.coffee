@@ -1,14 +1,12 @@
 class Cartridge.Views.PlayerListing extends Backbone.View
-  initialize: ->
-    @collection.on 'reset', =>
-      @render()
+  initialize: (options) ->
+    @collection.on 'reset', @render, this
+    @render()
+    @cartridge = options.cartridge
 
   render: ->
-    console.log 'rendering', @collection
-
     @$el.empty()
     @collection.each (player) =>
-      console.dir player
-      @$el.append "<li>#{ player.get('username') }</li>"
-
+      cls = if player.id.toString() == @cartridge.id.toString() then 'current' else 'other'
+      @$el.append "<li class='#{cls}'>#{ player.get('username') }</li>"
     this

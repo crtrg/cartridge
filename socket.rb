@@ -54,6 +54,8 @@ module Cartridge
   end
 
   class GameInstance
+    attr_accessor :players
+
     def initialize
       @store = {}
       @players = []
@@ -67,6 +69,11 @@ module Cartridge
         @channel.push(message)
       when 'join'
         # send "user joined" system message
+      when 'chat'
+        user = message[:_user]
+        msg  = message['args'][0]
+        # send message to everyone
+        @channel.push method: 'chat', username: user.username, user_id: user.id, message: msg
       else
         puts "Can't handle #{message.inspect}"
       end
@@ -77,11 +84,16 @@ module Cartridge
     end
 
     def add_player user
-      @players << user
+      players.push user
+
+      # tell the world about the player
+      update_players
+      @channel.push({method: 'system', message: "#{user.username} has joined"})
     end
 
     def remove_player user
-      @players.delete user
+      players.delete user
+      @channel.push({method: 'system', message: "#{user.username} has left"})
     end
 
     def delete(key)
@@ -93,6 +105,7 @@ module Cartridge
     end
 
     def subscribe(*args, &block)
+      # connect player to the world
       @channel.subscribe(*args, &block)
     end
 
@@ -104,14 +117,14 @@ module Cartridge
       @store
     end
 
-    def players
-      @players
+    def update_players
+      @channel.push({method: 'players', players: players})
     end
+
   end
 
   class UserInstance
     extend Forwardable
-    def_delegator :@game, :handle
     def_delegator :@game, :state
     def_delegator :@game, :players
 
@@ -130,6 +143,16 @@ module Cartridge
       @game.unsubscribe @sid
       @game.delete @user.id
       @game.remove_player @user
+      @game.update_players
+    end
+
+    def handle payload
+      payload[:_user] = @user
+      @game.handle payload
+    end
+
+    def game
+      @game
     end
   end
 
@@ -178,7 +201,8 @@ EM.run do
       instance.quit
     end
 
-    puts "Initializing #{instance.state.inspect}"
+    # tell new player about the world
+    puts "initializing #{instance.state.inspect}"
     ws.send({
       method: 'init',
       state: instance.state,

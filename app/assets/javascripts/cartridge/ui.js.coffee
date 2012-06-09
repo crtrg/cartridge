@@ -7,11 +7,24 @@ class Cartridge.UI
     @canvas.height = '460'
 
     # set up view components
-
     @playerListing = new Cartridge.Views.PlayerListing
       collection: @crtrg.players
       id: 'user-listing'
       el: $('#user-listing')
-    @playerListing.render()
+      cartridge: @crtrg
 
-    @chat
+    @messageDisplay = new Cartridge.Views.MessageDisplay
+      collection: @crtrg.messages
+      id: 'message-listing'
+      el: $('#message-listing')
+      cartridge: @crtrg
+
+    $('#chat-form').on 'submit', (evt) =>
+      evt.preventDefault()
+      evt.stopPropagation()
+
+      @crtrg.chat $('#chat-form input').val()
+      $('#chat-form input').val('')
+
+      return false
+

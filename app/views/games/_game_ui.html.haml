@@ -4,12 +4,12 @@
       %canvas#game-canvas
       #status
     .span2
-      %ul#user-listing
+      %ul#user-listing.unstyled
     .span4
       #chat-wrapper{:style => 'height:430px'}
-        .messages
+        #message-listing
       #chat-footer
-        %form.form-inline{onsubmit: 'return false'}
-          %input{type: 'text', name: 'message'}
+        %form.form-inline#chat-form{onsubmit: 'return false'}
+          %input{type: 'text', name: 'message', autocomplete: false}
           %button.btn{type: 'submit'} send
 
