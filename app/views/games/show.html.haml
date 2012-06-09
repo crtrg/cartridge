@@ -1,15 +1,26 @@
-%p#notice= notice
+.container
+  .row
+    .span6
+      %canvas#game-canvas
+    .span2
+      %ul#user-listing
+    .span4
+      #chat-wrapper{:style => 'height:300px'}
+        .messages
+      #chat-footer
+        %form.form-inline
+          %input{type: 'text', name: 'message'}
+          %button.btn{type: 'submit'} send
 
-%p
-  %b Title:
-  = @game.title
-%p
-  %b Creator:
-  = @game.creator_id
-%p
-  %b Package:
-  = @game.package
 
-= link_to 'Edit', edit_game_path(@game)
-\|
-= link_to 'Back', games_path
+-content_for :foot do
+  -# Step 0: Config cartridge
+  :javascript
+    Cartridge.config({
+      socketUrl: "ws://#{ENV['SOCKET_URL']}/game/#{@game.id}/singleton/#{@token}",
+      userId: "#{@token}"
+    })
+
+  -# load user's js
+  :javascript
+    #{@game.package}

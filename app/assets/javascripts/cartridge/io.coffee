@@ -24,5 +24,5 @@ class Cartridge.IO
       args: [key, value]
     )
 
-  each: (fn) ->
-    _(@state).each(fn)
+  each: (fn, context) ->
+    _(@state).each(fn, context)
