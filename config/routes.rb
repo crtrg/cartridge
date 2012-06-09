@@ -1,9 +1,11 @@
 Cartridge::Application.routes.draw do
+  resources :games
+
   get "home/index"
 
   devise_for :users
 
-  match '/demo' => 'socket_demo#index'
+  match '/demo' => 'socket_demo#index', :as => :socket_demo
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

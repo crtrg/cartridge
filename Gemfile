@@ -4,6 +4,7 @@ gem 'foreman'
 gem 'em-websocket'
 
 gem 'haml'
+gem 'haml-rails'
 gem 'rails', '3.2.5'
 gem 'pg'
 

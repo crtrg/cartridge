@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @game.title
+%p
+  %b Creator:
+  = @game.creator_id
+%p
+  %b Package:
+  = @game.package
+
+= link_to 'Edit', edit_game_path(@game)
+\|
+= link_to 'Back', games_path
