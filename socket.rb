@@ -1,5 +1,8 @@
 STDOUT.sync = true
 
+require 'rubygems'
+require 'bundler/setup'
+
 require 'em-websocket'
 require 'json'
 require 'uri'

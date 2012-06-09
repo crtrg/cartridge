@@ -34,3 +34,6 @@ gem 'handlebars-rails', :git => 'git://github.com/crtrg/handlebars-rails.git'
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
 
+group :development do
+  gem 'git-deploy'
+end
