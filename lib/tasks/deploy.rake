@@ -6,4 +6,5 @@ task :deploy do
     puts "\t$ git remote add production user@example.com:/path/to/myapp"
     return
   end
+  system %{git push production master}
 end
