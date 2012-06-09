@@ -6,11 +6,6 @@
     - if Rails.env.development?
       :javascript
         window.DEBUG = true;
-    %script
-      window.Cartridge = window.Cartridge || {};
-      window.Cartridge.config = {}
-      Cartridge.config.SOCKET_URL = "ws://#{ ENV['SOCKET_URL'] }";
-
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
@@ -44,3 +39,4 @@
               %ul.nav.nav-pills
                 %li{class: active_if_current(root_path)}= link_to 'home', root_path
                 %li{class: active_if_current(socket_demo_path)}= link_to 'demo', socket_demo_path
+    = yield :foot

@@ -15,24 +15,10 @@ Cartridge.namespace = (args...) ->
   # return final namespace
   return obj
 
-Cartridge.log = (message, args...) ->
-  _log = (s) ->
-    if window.console
-      console.log(s) # ff, chrome
-    else if typeof Debug == 'object'
-      Debug.writeln(s) # IE
-    else if typeof opera == 'opera'
-      opera.postError(s) # Opera
-
+Cartridge.log = () ->
   # console.log message
   if window.DEBUG
-    if _.isFunction(message)
-      message()
-    else
-      if args.length > 0
-        _log message, args
-      else
-        _log message
+    console.log(arguments)
 
 Cartridge.dir = (object) ->
   console.dir object if console? and window.DEBUG

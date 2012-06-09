@@ -10,9 +10,11 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+//= require json2
 //= require jquery
 //= require jquery_ujs
 //= require underscore
 //= require twitter/bootstrap
+//= require backbone
 //= require init
 //= require_tree .

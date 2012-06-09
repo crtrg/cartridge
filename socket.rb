@@ -33,10 +33,116 @@ class Router
   end
 end
 
+
+module Cartridge
+  class Server
+    def initialize
+      @data = {}
+    end
+    def get_instance(game_id, instance_id, user_id)
+      @data[game_id] ||= {}
+      @data[game_id][instance_id] ||= Cartridge::GameInstance.new
+      Cartridge::UserInstance.new(@data[game_id][instance_id], user_id)
+    end
+  end
+
+  class GameInstance
+    def initialize
+      @store = {}
+      @channel = EM::Channel.new
+    end
+
+    def handle(message)
+      case message['method']
+      when 'set'
+        self.set(*message['args'])
+        @channel.push(message)
+      when 'join'
+
+      else
+        puts "Can't handle #{message.inspect}"
+      end
+    end
+
+    def set(key, value)
+      @store[key] = value
+    end
+
+    def delete(key)
+      @store.delete key
+    end
+
+    def subscribe(*args, &block)
+      @channel.subscribe(*args, &block)
+    end
+
+    def unsubscribe(*args, &block)
+      @channel.unsubscribe(*args, &block)
+    end
+
+    def state
+      @store
+    end
+  end
+
+  class UserInstance
+    extend Forwardable
+    def_delegator :@game, :handle
+    def_delegator :@game, :state
+
+    def initialize(game_instance, user_id)
+      @game = game_instance
+      @user_id = user_id
+    end
+
+    def subscribe(*args, &block)
+      @sid = @game.subscribe(*args, &block)
+    end
+
+    def quit
+      @game.unsubscribe @sid
+      @game.delete(@user_id)
+    end
+  end
+end
+
+server = Cartridge::Server.new
+
 EM.run do
   @logger = Logger.new(STDOUT)
 
   router = Router.new
+
+  router.add '/game/:game_id/:instance_id/:user_id' do |ws, matcher|
+    game_id     = matcher[1]
+    instance_id = matcher[2]
+    user_id     = matcher[3]
+
+    instance = server.get_instance(game_id, instance_id, user_id)
+
+    instance.subscribe do |message|
+      puts "Sending #{message.inspect}"
+      ws.send message.to_json
+    end
+
+    ws.onmessage do |message|
+      puts "Handling #{message.inspect}"
+      instance.handle(JSON.parse(message))
+    end
+
+    ws.onclose do
+      instance.quit
+    end
+
+
+    puts "Initializing #{instance.state.inspect}"
+    ws.send({
+      method: 'init',
+      state: instance.state
+    }.to_json)
+
+  end
+
 
   @root = {}
 
@@ -66,6 +172,7 @@ EM.run do
       channel.push({message: "user #{sid} joined"}.to_json)
     end
   end
+
 
   # @demo = {}
   # router.add '/demo/:token' do |ws, matcher|

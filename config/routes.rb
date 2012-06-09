@@ -9,6 +9,8 @@ Cartridge::Application.routes.draw do
 
   match '/demo' => 'socket_demo#index', :as => :socket_demo
 
+  match '/socket_demo/game_demo'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
