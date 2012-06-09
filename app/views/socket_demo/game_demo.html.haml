@@ -1,12 +1,24 @@
--# Step 0: Config cartridge
-:javascript 
-  Cartridge.config({
-    socketUrl: "ws://#{ENV['SOCKET_URL']}/game/dance/singleton/#{@token}",
-    userId: "#{@token}"
-  })
+.container
+  .row
+    .span8
+      %canvas#game-canvas
+    .span2
+      %ul#user-listing
+    .span2
+      #chat-wrapper
+        .messages
 
+        .push-chat-footer
+      #chat-footer
 
--# load user's js
 -content_for :foot do
+  -# Step 0: Config cartridge
+  :javascript
+    Cartridge.config({
+      socketUrl: "ws://#{ENV['SOCKET_URL']}/game/dance/singleton/#{@token}",
+      userId: "#{@token}"
+    })
+
+  -# load user's js
   :javascript
     $(function(){ Cartridge.boot(DemoGame) })

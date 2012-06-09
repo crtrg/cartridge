@@ -8,8 +8,7 @@ Cartridge::Application.routes.draw do
   devise_for :users
 
   match '/demo' => 'socket_demo#index', :as => :socket_demo
-
-  match '/socket_demo/game_demo'
+  match '/game-demo' => 'socket_demo#game_demo', :as => :game_demo
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
