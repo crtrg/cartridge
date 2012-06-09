@@ -26,8 +26,8 @@ if File.file? 'Rakefile'
   tasks << "db:migrate" if num_migrations > 0
 
   # precompile assets
-  changed_assets = `git diff #{oldrev} #{newrev} --name-only -z app/assets`.split("\0")
-  tasks << "assets:precompile" if changed_assets.size > 0
+  # changed_assets = `git diff #{oldrev} #{newrev} --name-only -z app/assets`.split("\0")
+  # tasks << "assets:precompile" if changed_assets.size > 0
 
   run "#{rake_cmd} #{tasks.join(' ')} RAILS_ENV=#{RAILS_ENV}" if tasks.any?
 end
