@@ -70,6 +70,10 @@ module Cartridge
 
     def delete(key)
       @store.delete key
+      @channel.push({
+        method: 'delete',
+        args: [key]
+      })
     end
 
     def subscribe(*args, &block)

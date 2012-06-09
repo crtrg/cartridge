@@ -11,6 +11,8 @@ class Cartridge.IO
         when 'set'
           @state[data.args[0]] = data.args[1]
           @trigger('change')
+        when 'delete'
+          delete @state[data.args[0]]
         else
           console.log("Can't handle", data)
 
