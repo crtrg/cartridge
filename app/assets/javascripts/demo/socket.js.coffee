@@ -1,9 +1,5 @@
-window.SocketDemo = (path) ->
-  if path? and _.isString(path) and path.match /[a-z0-9A-Z-_]*/
-    url = Cartridge.config.SOCKET_URL + '/' + path
-  else
-    url = Cartridge.config.SOCKET_URL
-
+window.SocketDemo = () ->
+  url = Cartridge.config().socketUrl
   ws = new WebSocket url
   ws.onopen = (evt) ->
     $('#status').text('connected')

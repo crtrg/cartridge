@@ -9,7 +9,10 @@
       #messages
 
 :javascript
+  Cartridge.config({
+    socketUrl: "ws://#{ENV['SOCKET_URL']}",
+  })
+
   $(function(){
-    Cartridge.log( Cartridge.config.SOCKET_URL );
-    SocketDemo("");
+    SocketDemo();
   });
