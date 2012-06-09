@@ -6,4 +6,13 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body
-    = yield
+    #wrapper
+      = yield
+      #footer-push
+
+    #footer
+      .container
+        .row
+          .span12
+            &copy; 2012 - Adam and Nick
+
