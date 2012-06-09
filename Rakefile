@@ -23,10 +23,11 @@ end
 desc 'Check Jammit packaging status'
 task :before_deploy => :environment do
   Rake::Task['assets:precompile'].execute
-  system "git add public/assets/. && git commit -m 'automatically updated assets'"
+  system "git add #{Rails.root}/public/assets/. && git commit -m 'automatically updated assets'"
 end
 
 task :deploy => :before_deploy do
   system "git push origin master"
   system "git push production master"
+  system "rm -r #{Rails.root}/public/assets"
 end

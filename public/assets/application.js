@@ -14603,9 +14603,15 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     var userId, ws;
     ws = new WebSocket(Cartridge.config().socketUrl);
     userId = Cartridge.config().userId;
-    return ws.onopen = function(evt) {
+    ws.onopen = function(evt) {
       $('#status').text("connected as " + userId);
       return new game(new Cartridge.IO(ws, userId));
+    };
+    return ws.onclose = function(evt) {
+      $('#status').text('disconnected. reconnecting ...');
+      return setTimeout(function() {
+        return Cartridge.boot(game);
+      }, 500);
     };
   };
 
