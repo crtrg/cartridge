@@ -9,6 +9,6 @@ class Cartridge.Views.PlayerListing extends Backbone.View
     @$el.empty()
     @collection.each (player) =>
       console.dir player
-      @$el.html "<li>#{ player.get('username') }</li>"
+      @$el.append "<li>#{ player.get('username') }</li>"
 
     this
