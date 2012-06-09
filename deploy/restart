@@ -1,4 +1,3 @@
 #!/bin/sh
 echo "restarting"
-sudo service cartridge stop
-sudo service cartridge start
+sudo service cartridge restart
