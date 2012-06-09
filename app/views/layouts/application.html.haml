@@ -19,7 +19,7 @@
                 = link_to 'Games', games_path
               %li.dropdown
                 %a.dropdown-toggle{'data-toggle' => 'dropdown', 'href' => '#'}
-                  = current_user.email
+                  = current_user.username
                   %b.caret
                 %ul.dropdown-menu
                   %li= link_to('My Profile', edit_user_registration_path)

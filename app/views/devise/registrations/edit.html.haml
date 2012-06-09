@@ -14,7 +14,7 @@
           = f.label :email
           = f.email_field :email
 
-        .well
+        .well#password-change-form{style: 'display:none'}
           %div
             = f.label :password
             = f.password_field :password, :autocomplete => "off"
@@ -25,12 +25,16 @@
             = f.password_field :password_confirmation
 
         %div
+          %a{onclick: "$('#password-change-form').toggle()"}
+            change password
+
+        %div
           = f.label :current_password
           = f.password_field :current_password
           %i (we need your current password to confirm your changes)
 
         %div
-          = f.submit "Update", class: 'btn'
+          = f.submit "Update", onclick: "if (!$('#password-change-form').is(':visible')) {$('#password-change-form input').val('')}", class: 'btn'
 
       %h3 Cancel my account
       %p
