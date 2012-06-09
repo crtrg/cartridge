@@ -22,7 +22,7 @@
             %li.divider-vertical
             - if user_signed_in?
               %li.dropdown
-                %a.dropdown-toggle{'data-toggle' => 'dropdown', 'href' => '#'}
+                %a.dropdown-toggle{'data-toggle' => 'dropdown'}
                   = current_user.username
                   %b.caret
                 %ul.dropdown-menu
