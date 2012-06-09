@@ -33,7 +33,7 @@
 
                 Hello.prototype = {
                   draw: function() {
-                    this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+                    this.context.clearRect(0, 0, this.ui.canvas.width, this.ui.canvas.height);
                     var y = 0;
                     this.cartridge.each(function(obj, id) {
                       y += 16;

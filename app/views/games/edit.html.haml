@@ -1,7 +1,11 @@
-%h1 Editing game
+.container
+  .row
+    .span12
+      .page-header
+        %h2 Change your game!
 
-= render 'form'
+      = render 'form'
 
-= link_to 'Show', @game
-\|
-= link_to 'Back', games_path
+      = link_to 'Show', @game
+      \|
+      = link_to 'Back', games_path
