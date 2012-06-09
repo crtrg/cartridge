@@ -8,6 +8,10 @@ class Cartridge.IO
       switch data.method
         when 'init'
           @state = data.state
+          @players = data.players
+        when 'system'
+          # a new system message received
+          console.log 'system message received', data.message
         when 'set'
           @state[data.args[0]] = data.args[1]
           @trigger('change')
@@ -15,9 +19,6 @@ class Cartridge.IO
           delete @state[data.args[0]]
         else
           console.log("Can't handle", data)
-
-    @canvas = document.getElementById('game-canvas')
-    @context = @canvas.getContext('2d')
 
   set: (key, value) ->
     Cartridge.log('Cartridge::IO#set', arguments)

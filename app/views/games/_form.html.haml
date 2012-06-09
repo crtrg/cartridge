@@ -1,19 +1,47 @@
-.container
-  .row
-    .span12
-      = form_for @game do |f|
-        - if @game.errors.any?
-          #error_explanation
-            %h2= "#{pluralize(@game.errors.count, "error")} prohibited this game from being saved:"
-            %ul
-              - @game.errors.full_messages.each do |msg|
-                %li= msg
+= form_for @game, html: {class: 'form-horizontal'} do |f|
+  - if @game.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@game.errors.count, "error")} prohibited this game from being saved:"
+      %ul
+        - @game.errors.full_messages.each do |msg|
+          %li= msg
 
-        .field
-          = f.label :title
-          = f.text_field :title
-        .field
-          = f.label :package
-          = f.text_area :package
-        .actions
-          = f.submit 'Save'
+  %fieldset
+    .control-group
+      = f.label :title, class: 'control-label'
+      .controls
+        = f.text_field :title, class: 'span4'
+    .control-group
+      = f.label :package, class: 'control-label'
+      .controls
+        = f.text_area :package, class: 'span6'
+
+        %p
+          %a{onclick: "$('#code-sample').toggle()"} example
+
+        #code-sample{:style => 'display:none'}
+          %pre
+            %code
+              :plain
+                var Hello = function(cartridge) {
+                  this.cartridge = cartridge;
+                  this.cartridge.on('change', this.draw, this);
+                  this.cartridge.set(this.cartridge.id, this.cartridge.id);
+                  this.ui = new Cartridge.UI();
+                  this.context = this.ui.context;
+                }
+
+                Hello.prototype = {
+                  draw: function() {
+                    this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+                    var y = 0;
+                    this.cartridge.each(function(obj, id) {
+                      y += 16;
+                      this.context.fillText(id, 0, y);
+                    }, this);
+                  }
+                };
+
+                Cartridge.boot(Hello)
+    .form-actions
+      = f.submit 'Save', class: 'btn btn-success btn-large'

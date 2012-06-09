@@ -1,8 +1,8 @@
+# just controls the canvas
 class Cartridge.UI
   constructor: ->
     @canvas   = document.getElementById('game-canvas')
     @context  = @canvas.getContext('2d')
-
     @canvas.width  = '460'
     @canvas.height = '460'
 
@@ -12,7 +12,7 @@ Cartridge.boot = (game) ->
   userId   = Cartridge.config().userId
 
   ws.onopen = (evt) ->
-    $('#status').text('connected')
+    $('#status').text "connected as #{userId}"
     new game(new Cartridge.IO(ws, userId))
 
 Cartridge.config = (options) ->

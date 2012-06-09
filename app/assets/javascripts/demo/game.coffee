@@ -1,7 +1,9 @@
 class DemoGame
   constructor: (@cartridge) ->
     @setMyLocation(0,0)
-    @cartridge.on('change', @draw, this)
+
+    @cartridge.on 'change', @draw, this
+
     setInterval _.bind(@tick, this), Math.floor(Math.random() * 3000 + 1000)
 
     @ui = new Cartridge.UI()

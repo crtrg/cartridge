@@ -49,6 +49,7 @@ module Cartridge
   class GameInstance
     def initialize
       @store = {}
+      @players = []
       @channel = EM::Channel.new
     end
 
@@ -58,7 +59,7 @@ module Cartridge
         self.set(*message['args'])
         @channel.push(message)
       when 'join'
-
+        # send "user joined" system message
       else
         puts "Can't handle #{message.inspect}"
       end
@@ -66,6 +67,14 @@ module Cartridge
 
     def set(key, value)
       @store[key] = value
+    end
+
+    def add_player user_id
+      @players << user_id
+    end
+
+    def remove_player user_id
+      @players.delete user_id
     end
 
     def delete(key)
@@ -87,12 +96,17 @@ module Cartridge
     def state
       @store
     end
+
+    def players
+      @players
+    end
   end
 
   class UserInstance
     extend Forwardable
     def_delegator :@game, :handle
     def_delegator :@game, :state
+    def_delegator :@game, :players
 
     def initialize(game_instance, user_id)
       @game = game_instance
@@ -101,11 +115,13 @@ module Cartridge
 
     def subscribe(*args, &block)
       @sid = @game.subscribe(*args, &block)
+      @game.add_player @user_id
     end
 
     def quit
       @game.unsubscribe @sid
-      @game.delete(@user_id)
+      @game.delete @user_id
+      @game.remove_player @user_id
     end
   end
 end
@@ -138,13 +154,12 @@ EM.run do
       instance.quit
     end
 
-
     puts "Initializing #{instance.state.inspect}"
     ws.send({
       method: 'init',
-      state: instance.state
+      state: instance.state,
+      players: instance.players
     }.to_json)
-
   end
 
 
