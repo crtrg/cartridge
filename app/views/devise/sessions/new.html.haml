@@ -1,0 +1,22 @@
+.container
+  .row
+    .span12
+      %h2 Sign in
+      = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+        %div
+          = f.label :email
+          = f.email_field :email
+
+        %div
+          = f.label :password
+          = f.password_field :password
+
+        - if devise_mapping.rememberable?
+          %div
+            %label
+              = f.check_box :remember_me
+              remember me
+
+        %div= f.submit "Sign in", class: 'btn'
+
+      = render :partial => "devise/shared/links"

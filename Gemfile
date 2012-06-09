@@ -39,4 +39,8 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 
 group :development do
   gem 'git-deploy'
+
+  # html2haml
+  gem 'hpricot'
+  gem 'ruby_parser'
 end
