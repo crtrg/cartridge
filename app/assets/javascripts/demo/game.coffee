@@ -6,7 +6,7 @@ class DemoGame
 
     setInterval _.bind(@tick, this), Math.floor(Math.random() * 3000 + 1000)
 
-    @ui = new Cartridge.UI()
+    @ui = @cartridge.ui
     @context = @ui.context
     @canvas  = @ui.canvas
 

@@ -1,17 +1,4 @@
-.container
-  .row
-    .span6
-      %canvas#game-canvas
-    .span2
-      %ul#user-listing
-    .span4
-      #chat-wrapper{:style => 'height:300px'}
-        .messages
-      #chat-footer
-        %form.form-inline
-          %input{type: 'text', name: 'message'}
-          %button.btn{type: 'submit'} send
-
+= render :partial => 'game_ui'
 
 -content_for :foot do
   -# Step 0: Config cartridge

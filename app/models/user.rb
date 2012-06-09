@@ -12,4 +12,6 @@ class User < ActiveRecord::Base
 
   has_many :games, :as => :creator
 
+  validates_exclusion_of :username, :in => %w( admin superuser system adam nick ), :message => "Sorry, that name is reserved :("
+  profanity_filter :username
 end

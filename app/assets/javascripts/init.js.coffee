@@ -2,6 +2,10 @@
 # things that have to exist before everything else in Cartridge
 
 window.Cartridge ||= {}
+window.Cartridge =
+  Models: {}
+  Collections: {}
+  Views: {}
 
 # `Cartridge.namespace('First').namespace('Second').value = newValue;` should always work.
 Cartridge.namespace = (args...) ->
