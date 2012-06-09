@@ -13,10 +13,14 @@
     .navbar.navbar-fixed-top
       .navbar-inner
         .container
+          = link_to 'Cartridge', root_path, class: 'brand'
           %ul.nav.pull-right
+            %li
+              = link_to 'Build a Game', new_game_path
+            %li
+              = link_to 'Games', games_path
+            %li.divider-vertical
             - if user_signed_in?
-              %li
-                = link_to 'Games', games_path
               %li.dropdown
                 %a.dropdown-toggle{'data-toggle' => 'dropdown', 'href' => '#'}
                   = current_user.email

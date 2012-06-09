@@ -1,14 +1,24 @@
 .container
   .row
-    .span8
-      %h1 Listing games
+    .span12
+      %h1.row
+        .span4
+          Games on Cartridge
+        %small.span8
+          = link_to 'Build a Game', new_game_path, :class => 'btn btn-primary btn-large'
+      %hr
 
       - @games.each do |game|
-        %h2= game.title
-        %p By #{game.creator.email}.
-        %p= link_to "Play", game_path(game)
-        - if current_user == game.creator
-          %p= link_to 'Edit', edit_game_path(game)
-          %p= link_to 'Destroy', game, :confirm => 'Are you sure?', :method => :delete
+        %h2
+          = link_to game_path(game) do
+            = game.title
+            %small
+              by #{game.creator.username}
+          - if current_user == game.creator
+            %small
+              (
+              = link_to 'Edit', edit_game_path(game)
+              &middot;
+              = link_to 'Destroy', game, :confirm => 'Are you sure?', :method => :delete
+              )
 
-      = link_to 'New Game', new_game_path, :class => 'btn btn-primary btn-large'
