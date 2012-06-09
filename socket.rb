@@ -71,7 +71,10 @@ module Cartridge
         # send "user joined" system message
       when 'chat'
         user = message[:_user]
-        msg  = message['args'][0]
+
+        # filter, yo
+        msg  = CGI.escapeHTML message['args'][0]
+
         # send message to everyone
         @channel.push method: 'chat', username: user.username, user_id: user.id, message: msg
       else
