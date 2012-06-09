@@ -1,5 +1,6 @@
 
 class GamesController < ApplicationController
+  before_filter :authenticate_user!, :only => [:new, :edit, :create, :update, :destroy]
   def index
     @games = Game.all
   end
