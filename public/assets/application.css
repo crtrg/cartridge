@@ -4315,3 +4315,6 @@ html, body {
   margin-bottom: 8px;
   overflow-y: scroll;
 }
+textarea#game_package {
+  font-family: Inconsolata, Menlo, "Bitstream Vera Sans Mono", "Courier New", monospace, mono;
+}
