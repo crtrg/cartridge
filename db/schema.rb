@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120609012012) do
+ActiveRecord::Schema.define(:version => 20120609182332) do
 
   create_table "games", :force => true do |t|
-    t.string   "title"
-    t.integer  "creator_id"
-    t.binary   "package"
+    t.string   "title",      :null => false
+    t.integer  "creator_id", :null => false
+    t.text     "package",    :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -38,5 +38,7 @@ ActiveRecord::Schema.define(:version => 20120609012012) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  add_foreign_key "games", "users", :name => "games_creator_id_fk", :column => "creator_id"
 
 end

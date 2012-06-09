@@ -2,17 +2,14 @@ source 'https://rubygems.org'
 
 gem 'foreman'
 gem 'em-websocket'
-
 gem 'haml'
 gem 'haml-rails'
 gem 'rails', '3.2.5'
 gem 'pg'
-
 gem 'therubyracer', :platforms => :ruby
-
 gem 'devise'
-
 gem 'puma'
+gem 'foreigner'
 
 # Gems used only for assets and not required
 # in production environments by default.
