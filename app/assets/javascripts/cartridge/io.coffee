@@ -14,6 +14,9 @@ class Cartridge.IO
         else
           console.log("Can't handle", data)
 
+    @canvas = document.getElementById('game-canvas')
+    @context = @canvas.getContext('2d')
+
   set: (key, value) ->
     Cartridge.log('Cartridge::IO#set', arguments)
     @socket.send JSON.stringify(
