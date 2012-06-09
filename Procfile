@@ -1,4 +1,4 @@
 
-web: bundle exec rails server -p $PORT
-ws:  bundle exec ruby socket.rb
+web: bundle exec rails server thin -p $PORT
+ws:  bundle exec ruby socket.rb -p $PORT
 

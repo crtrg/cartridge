@@ -1,5 +1,5 @@
-window.SOCKET_PORT = "<%= ENV['SOCKET_PORT'] %>"
+window.SOCKET_URL = "<%= ENV['SOCKET_URL'] %>"
 
 window.Connection = (path) ->
-  new WebSocket "ws://#{window.location.hostname}:#{ SOCKET_PORT }/#{path}"
+  new WebSocket "ws://#{window.SOCKET_URL}/#{path}"
 
