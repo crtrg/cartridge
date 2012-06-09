@@ -29,5 +29,4 @@ end
 task :deploy => :before_deploy do
   system "git push origin master"
   system "git push production master"
-  system "rm -r #{Rails.root}/public/assets"
 end
