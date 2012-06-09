@@ -1,5 +1,5 @@
-window.SocketDemo = ->
-  ws = new Connection ''
+window.SocketDemo = (socket_url) ->
+  ws = new WebSocket socket_url
   ws.onopen = (evt) ->
     $('#status').text('connected')
   ws.onmessage = (evt) ->
