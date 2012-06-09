@@ -32,6 +32,7 @@ end
 # js, yeah
 gem 'backbone-rails'
 gem 'jquery-rails'
+gem 'underscore-rails'
 gem 'handlebars-rails', :git => 'git://github.com/crtrg/handlebars-rails.git'
 
 # To use ActiveModel has_secure_password

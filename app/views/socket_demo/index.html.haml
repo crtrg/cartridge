@@ -3,11 +3,13 @@
     .span12
       .page-header
         %h1
-          I'm home.
+          I'm
+          %a{href: root_path} home.
           %small#status
       #messages
 
 :javascript
   $(function(){
-    SocketDemo("ws://#{ ENV['SOCKET_URL'] }/");
+    Cartridge.log( Cartridge.config.SOCKET_URL );
+    SocketDemo("");
   });

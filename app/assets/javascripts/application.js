@@ -12,5 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require underscore
 //= require twitter/bootstrap
+//= require init
 //= require_tree .

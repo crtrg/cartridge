@@ -1,6 +1,8 @@
 Cartridge::Application.routes.draw do
   resources :games
 
+  match '/socketapp.js' => 'socket_js#script', :as => :socket_app
+
   get "home/index"
 
   devise_for :users

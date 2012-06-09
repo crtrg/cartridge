@@ -3,11 +3,6 @@
   %head
     %title Cartridge
 
-    - if Rails.env.development?
-      :javascript
-        window.DEBUG = true;
-    %script{src: socket_app_path}
-
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
@@ -34,10 +29,5 @@
       .container
         .row
           .span12
-            .pull-left
-              &copy; 2012 - Adam and Nick
+            &copy; 2012 - Adam and Nick
 
-            .pull-right
-              %ul.nav.nav-pills
-                %li{class: active_if_current(root_path)}= link_to 'home', root_path
-                %li{class: active_if_current(socket_demo_path)}= link_to 'demo', socket_demo_path
