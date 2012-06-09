@@ -16,5 +16,5 @@ test:
 
 production:
   adapter: postgresql
-  database: cartridge_prod
+  database: cartridge
 
