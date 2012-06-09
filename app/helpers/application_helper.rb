@@ -10,4 +10,9 @@ module ApplicationHelper
   def active_if_current path
     if_current? path, 'active'
   end
+
+  def session_id
+    session[:active] = true
+    session[:id]
+  end
 end
