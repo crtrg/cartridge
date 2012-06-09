@@ -14,7 +14,7 @@
     .control-group
       = f.label :package, class: 'control-label'
       .controls
-        = f.text_area :package, class: 'span6'
+        = f.text_area :package, class: 'span10'
 
         %p
           %a{onclick: "$('#code-sample').toggle()"} example
@@ -30,7 +30,8 @@
                   // respond to changed state
                   this.cartridge.on('change', this.draw, this);
 
-                  this.cartridge.set(this.cartridge.id, this.cartridge.id);
+                  // set some data
+                  this.cartridge.set(this.cartridge.id, "hello world, I am "+this.cartridge.id);
 
                   // connect to the cartridge UI elements
                   this.ui = cartridge.ui;
@@ -44,11 +45,11 @@
 
                 Hello.prototype = {
                   draw: function() {
-                    this.context.clearRect(0, 0, this.ui.canvas.width, this.ui.canvas.height);
+                    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
                     var y = 0;
                     this.cartridge.each(function(obj, id) {
                       y += 16;
-                      this.context.fillText(id, 0, y);
+                      this.context.fillText(obj, 0, y);
                     }, this);
                   }
                 };
