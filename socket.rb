@@ -33,12 +33,12 @@ class Router
   end
 end
 
-
 module Cartridge
   class Server
     def initialize
       @data = {}
     end
+
     def get_instance(game_id, instance_id, user_id)
       @data[game_id] ||= {}
       @data[game_id][instance_id] ||= Cartridge::GameInstance.new
