@@ -1,0 +1,5 @@
+window.SOCKET_PORT = "<%= ENV['SOCKET_PORT'] %>"
+
+window.Connection = (path) ->
+  new WebSocket "ws://#{window.location.hostname}:#{ SOCKET_PORT }/#{path}"
+

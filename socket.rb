@@ -1,3 +1,5 @@
+STDOUT.sync = true
+
 require 'em-websocket'
 require 'json'
 require 'uri'
@@ -33,62 +35,77 @@ EM.run do
   @channels = {}
   @members = {}
 
+  @master_channel = nil
+
   router = Router.new
 
-  router.add '/:room/:user' do |ws, matcher|
-    path = matcher[0]
-    room_name = matcher[1]
-    user_name = matcher[2]
-
-    channel = @channels[room_name] || (@channels[room_name] = EM::Channel.new)
-    sid = channel.subscribe { |msg| ws.send msg }
-
-    @logger.info("#{sid} join #{room_name}")
-
-    members = @members[room_name] || (@members[room_name] = {})
-    members[sid] = user_name
-
-    data = {
-      :user    => 'system',
-      :comment => "#{user_name} connected",
-      :user_id => 0,
-      :members => members
-    }
-    @logger.info(data)
-    channel.push data.to_json
-
-    ws.onmessage { |msg|
-      puts "==========================================="
-      puts "message"
-      puts "==========================================="
-      data = {
-        :user    => user_name,
-        :comment => msg,
-        :user_id => sid
-      }
-      @logger.info(data)
-      p channel
-      channel.push(data.to_json)
-    }
+  router.add '/' do |ws, matcher|
+    @master_channel ||= EM::Channel.new
+    sid = @master_channel.subscribe {|msg| ws.send msg}
 
     ws.onclose {
-      puts "==========================================="
-      puts "close"
-      puts "==========================================="
-      members.delete(sid)
-      data = {
-        :user    => 'system',
-        :comment => "#{user_name} disconnected",
-        :user_id => 0,
-        :members => members
-      }
-      @logger.info(data)
-      channel.unsubscribe(sid)
+      puts "closing a connection"
+      @members.delete(sid)
+      @master_channel.unsubscribe(sid)
+      @master_channel.push({message: "user #{sid} left"}.to_json)
     }
 
+    @master_channel.push({message: "user #{sid} joined"}.to_json)
   end
 
-  EM::WebSocket.start(:host=>'0.0.0.0', :port => 8081) do |ws|
+  # router.add '/:room/:user' do |ws, matcher|
+  #   path = matcher[0]
+  #   room_name = matcher[1]
+  #   user_name = matcher[2]
+
+  #   channel = @channels[room_name] || (@channels[room_name] = EM::Channel.new)
+  #   sid = channel.subscribe { |msg| ws.send msg }
+
+  #   @logger.info("#{sid} join #{room_name}")
+
+  #   members = @members[room_name] || (@members[room_name] = {})
+  #   members[sid] = user_name
+
+  #   data = {
+  #     :user    => 'system',
+  #     :comment => "#{user_name} connected",
+  #     :user_id => 0,
+  #     :members => members
+  #   }
+  #   @logger.info(data)
+  #   channel.push data.to_json
+
+  #   ws.onmessage { |msg|
+  #     puts "==========================================="
+  #     puts "message"
+  #     puts "==========================================="
+  #     data = {
+  #       :user    => user_name,
+  #       :comment => msg,
+  #       :user_id => sid
+  #     }
+  #     @logger.info(data)
+  #     p channel
+  #     channel.push(data.to_json)
+  #   }
+
+  #   ws.onclose {
+  #     puts "==========================================="
+  #     puts "close"
+  #     puts "==========================================="
+  #     members.delete(sid)
+  #     data = {
+  #       :user    => 'system',
+  #       :comment => "#{user_name} disconnected",
+  #       :user_id => 0,
+  #       :members => members
+  #     }
+  #     @logger.info(data)
+  #     channel.unsubscribe(sid)
+  #   }
+  # end
+
+  EM::WebSocket.start(:host=>'0.0.0.0', :port => ENV['SOCKET_PORT']) do |ws|
     # can't route until after ws.onopen fires because we don't
     # have path information before that.
     #
@@ -114,13 +131,7 @@ EM.run do
     #   @debug=false, @state=:connected, @data="">>
     #
     ws.onopen {
-      puts ws.inspect
-
-      puts "==========================================="
-      puts "open"
-      puts "==========================================="
-
-      # puts ws.request.path
+      puts "opened a connection to #{ ws.request['path'] }"
       router.process ws.request['path'], ws
     }
 
