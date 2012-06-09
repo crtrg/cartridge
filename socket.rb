@@ -35,26 +35,42 @@ end
 
 EM.run do
   @logger = Logger.new(STDOUT)
-  @channels = {}
-  @members = {}
-
-  @master_channel = nil
 
   router = Router.new
 
+  @root = {}
+
+  # join / leave echo bot
   router.add '/' do |ws, matcher|
-    @master_channel ||= EM::Channel.new
-    sid = @master_channel.subscribe {|msg| ws.send msg}
+    @root[:members] ||= {}
+    @root[:channel] ||= EM::Channel.new
 
-    ws.onclose {
-      puts "closing a connection"
-      @members.delete(sid)
-      @master_channel.unsubscribe(sid)
-      @master_channel.push({message: "user #{sid} left"}.to_json)
-    }
+    members = @root[:members]
+    channel = @root[:channel]
 
-    @master_channel.push({message: "user #{sid} joined"}.to_json)
+    if members.size > 10
+      puts "too many members"
+      channel.push({message: 'someone got bounced :('})
+      ws.close_connection
+    else
+      sid = channel.subscribe {|msg| ws.send msg}
+      members[sid] = 'member'
+
+      ws.onclose {
+        puts "closing a connection"
+        members.delete(sid)
+        channel.unsubscribe(sid)
+        channel.push({message: "user #{sid} left"}.to_json)
+      }
+
+      channel.push({message: "user #{sid} joined"}.to_json)
+    end
   end
+
+  # @demo = {}
+  # router.add '/demo/:token' do |ws, matcher|
+  #   @demo[:members] ||= {}
+  # end
 
   # router.add '/:room/:user' do |ws, matcher|
   #   path = matcher[0]

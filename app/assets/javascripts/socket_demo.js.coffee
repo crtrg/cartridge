@@ -8,11 +8,11 @@ window.SocketDemo = (path) ->
   ws.onopen = (evt) ->
     $('#status').text('connected')
   ws.onmessage = (evt) ->
-    console.log("received message!")
+    Cartridge.log("received message!")
     try
       data = JSON.parse(evt.data)
       $("#messages").append("<p>" + data.message + "</p>")
     catch ex
-      console.error ex.message
-    console.dir(evt)
+      Cartridge.error ex.message
+    Cartridge.dir(evt)
   console.log("setup")
