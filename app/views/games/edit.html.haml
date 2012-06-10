@@ -6,6 +6,16 @@
 
       = render 'form'
 
+      %h3 Did you know?
+      %p You can update your game with curl. Run:
+      %pre
+        curl -X PUT #{game_url(@game)} -F push_token=#{@game.push_token} -F package=@file.js
+      %p
+        Where
+        %code file.js
+        is a javascript file in the current directory.
+
+
       = link_to 'Show', @game
       \|
       = link_to 'Back', games_path
