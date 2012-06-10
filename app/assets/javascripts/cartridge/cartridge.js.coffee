@@ -3,10 +3,13 @@ Cartridge.boot = (game) ->
   # console.log('booting', game)
   ws       = new WebSocket Cartridge.config().socketUrl
   userId   = Cartridge.config().userId
+  io       = new Cartridge.IO(ws, userId)
+  io.on 'init', =>
+    console.log('init!, booting')
+    new game(io)
 
   ws.onopen = (evt) ->
     $('#game-status').text "connected as #{userId}"
-    new game(new Cartridge.IO(ws, userId))
 
   ws.onclose = (evt) ->
     $('#game-status').text 'disconnected. reconnecting ...'

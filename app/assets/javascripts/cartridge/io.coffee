@@ -12,6 +12,7 @@ class Cartridge.IO
         when 'init'
           @state = data.state
           @players.reset data.players
+          @trigger('init')
         when 'system'
           # a new system message received
           Cartridge.log '[IO] system message received'
