@@ -2,22 +2,37 @@
 @import "twitter/bootstrap/mixins.less";
 
 #message-listing, #user-listing {
-  .current {
-    color: @blue;
-  }
+  .current { color: @blue; }
+  .other   { color: @green; }
+  .system  { color: @orange; }
+}
 
-  .other {
-    color: @green;
-  }
-
-  .system {
-    color: @orange;
-  }
+#user-listing-wrapper {
+  height: 90px;
+  overflow-y: scroll;
+  border-bottom: 2px solid @grayLighter;
+  margin-bottom: 8px;
+  // border: 1px solid @blue;
 }
 
 #chat-wrapper {
+  height: 300px;
   margin-bottom: 8px;
   overflow-y: scroll;
+  // border: 1px solid @green;
+
+  #message-listing {
+    .message {
+      font-size: 12px;
+      line-height: 12px;
+      margin: 4px 0 6px;
+      .username {
+        font-size: 11px;
+        line-height: 8px;
+        .opacity(90);
+      }
+    }
+  }
 }
 
 textarea#game_package {

@@ -1,13 +1,20 @@
 .container
   .row
     .span8
+      -# game UI controlled by Cartridge.UI
       %canvas#game-canvas
-      #status
+      #game-status
+
     .span4
-      %ul#user-listing.unstyled
-      %hr
-      #chat-wrapper{:style => 'height:430px'}
+      -# chat UI controlled by Cartridge.Page
+      #user-count
+
+      #user-listing-wrapper
+        %ul#user-listing.unstyled
+
+      #chat-wrapper
         #message-listing
+
       #chat-footer
         %form.form-inline#chat-form{onsubmit: 'return false'}
           %input{type: 'text', name: 'message', autocomplete: false}
