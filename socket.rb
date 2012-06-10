@@ -43,19 +43,20 @@ end
 module Cartridge
   class Server
     def initialize
-      @data = {}
+      @games = {}
+      @chats = {}
     end
 
     def get_instance(game_id, instance_id, user)
-      @data[game_id] ||= {}
-      @data[game_id][instance_id] ||= Cartridge::GameInstance.new
-      Cartridge::UserInstance.new(@data[game_id][instance_id], user)
+      @games[game_id] ||= {}
+      @games[game_id][instance_id] ||= Cartridge::GameInstance.new
+      Cartridge::UserInstance.new(@games[game_id][instance_id], user)
     end
 
     def get_chat_instance(game_id, instance_id, user)
-      @data[game_id] ||= {}
-      @data[game_id][instance_id] ||= Cartridge::ChatInstance.new
-      Cartridge::UserInstance.new(@data[game_id][instance_id], user)
+      @chats[game_id] ||= {}
+      @chats[game_id][instance_id] ||= Cartridge::ChatInstance.new
+      Cartridge::UserInstance.new(@chats[game_id][instance_id], user)
     end
   end
 
@@ -293,7 +294,7 @@ EM.run do
     end
 
     # tell new player about the world
-    puts "initializing #{instance.state.inspect}"
+    puts "initializing game #{instance.state.inspect}"
     ws.send({
       method: 'init',
       state: instance.state,
