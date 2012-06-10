@@ -16,4 +16,10 @@ class User < ActiveRecord::Base
   validates_presence_of :username
   validates_exclusion_of :username, :in => %w( admin superuser system ), :message => "Sorry, that name is reserved :("
   profanity_filter :username
+  before_create :set_creator
+
+  private
+  def set_creator
+    self.creator = Time.now < Time.parse("June 11, 2012")
+  end
 end
