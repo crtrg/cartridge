@@ -15,6 +15,7 @@
 //= require jquery_ujs
 //= require underscore
 //= require twitter/bootstrap
+//= require processing-1.3.6.min.js
 //= require backbone
 //= require ace/ace
 //= require init

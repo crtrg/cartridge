@@ -1,0 +1,13 @@
+:javascript
+  (function () {
+    Cartridge.config({
+      socketUrl: "ws://#{ENV['SOCKET_URL']}/game/#{@game.id}/singleton/#{@token}",
+      chatUrl:   "ws://#{ENV['SOCKET_URL']}/chat/#{@game.id}/singleton/#{@token}",
+      userId:    "#{@token}",
+      username:  "#{@username}"
+    });
+  })();
+
+-# load Cartridge chrome js
+:javascript
+  Cartridge.startUI();

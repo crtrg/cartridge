@@ -1,18 +1,23 @@
 = render :partial => 'game_ui'
 
--content_for :foot do
-  -# Step 0: Config cartridge
-  :javascript
-    Cartridge.config({
-      socketUrl: "ws://#{ENV['SOCKET_URL']}/game/#{@game.id}/singleton/#{@token}",
-      chatUrl:   "ws://#{ENV['SOCKET_URL']}/chat/#{@game.id}/singleton/#{@token}",
-      userId: "#{@token}"
-    })
+- content_for :navbar do
+  %ul.nav.pull-left
+    - if @game.creator == current_user
+      %li.edit-link
+        = link_to 'edit this game', edit_game_path(@game)
 
-  -# load Cartridge chrome js
-  :javascript
-    Cartridge.startUI();
+- content_for :foot do
+  -# load some game libs
+
+  -# Step 0: Config cartridge
+  = render :partial => 'cartridge_init'
 
   -# load user's js
   :javascript
-    #{@game.package}
+    $(function () {
+      try {
+        #{@game.package}
+      } catch (ex) {
+      console.error(ex.message);
+      }
+    });

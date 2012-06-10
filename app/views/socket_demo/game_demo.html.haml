@@ -5,8 +5,13 @@
   :javascript
     Cartridge.config({
       socketUrl: "ws://#{ENV['SOCKET_URL']}/game/dance/singleton/#{@token}",
+      chatUrl:   "ws://#{ENV['SOCKET_URL']}/chat/dance/singleton/#{@token}",
       userId: "#{@token}"
     })
+
+  -# load Cartridge chrome js
+  :javascript
+    Cartridge.startUI();
 
   -# load user's js
   :javascript

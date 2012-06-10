@@ -29781,19 +29781,17 @@ define("text!ace/theme/textmate.css", [], ".ace-tm .ace_editor {\n" +
 (function() {
 
   Cartridge.boot = function(game) {
-    var io, userId, username, ws,
+    var io, userId, ws,
       _this = this;
     ws = new WebSocket(Cartridge.config().socketUrl);
     userId = Cartridge.config().userId;
-    username = Cartridge.config().username;
     io = new Cartridge.IO(ws, userId);
     io.on('init', function() {
       console.log('init!, booting');
-      new game(io);
-      return $(io.ui.canvas).focus();
+      return new game(io);
     });
     ws.onopen = function(evt) {
-      return $('#game-status').text("connected as " + username);
+      return $('#game-status').text("connected as " + userId);
     };
     return ws.onclose = function(evt) {
       $('#game-status').text('disconnected. reconnecting ...');

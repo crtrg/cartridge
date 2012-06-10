@@ -4,7 +4,12 @@ class DemoGame
 
     @cartridge.on 'change', @draw, this
 
-    setInterval _.bind(@tick, this), 10000 # Math.floor(Math.random() * 3000 + 1000)
+    # setInterval _.bind(@tick, this), 100 # Math.floor(Math.random() * 3000 + 1000)
+
+    update_ui = _.throttle( ((evt) => @updateUI(evt)), 60 )
+    $(@canvas).on 'mouseover', (evt) ->
+      console.log 'updating'
+      update_ui evt
 
     @ui = @cartridge.ui
     @context = @ui.context
@@ -13,6 +18,11 @@ class DemoGame
   tick: ->
     x = Math.floor(Math.random() * (@canvas.width - 30))
     y = Math.floor(Math.random() * (@canvas.height - 30))
+    @setMyLocation(x, y)
+
+  updateUI: (evt) ->
+    x = evt.pageX
+    y = evt.pageY
     @setMyLocation(x, y)
 
   setMyLocation: (x,y) ->
