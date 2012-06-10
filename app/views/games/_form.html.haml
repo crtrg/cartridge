@@ -31,5 +31,13 @@
       .controls
         = f.check_box :remixable
 
+        %p.help-block{:style => 'width:600px'}
+          Remixable games must be available under a Creative Commons
+          Attribution-NonCommercial 3.0 Unported (CC BY-NC 3.0)
+          license:
+          %a{href: 'http://creativecommons.org/licenses/by-nc/3.0/'}
+            http://creativecommons.org/licenses/by-nc/3.0/
+
+
     .form-actions
       = f.submit 'Save', class: 'btn btn-success btn-large'
