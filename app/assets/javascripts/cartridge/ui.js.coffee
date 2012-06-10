@@ -3,8 +3,8 @@ class Cartridge.UI
   constructor: (@crtrg) ->
     @canvas   = document.getElementById('game-canvas')
     @context  = @canvas.getContext('2d')
-    @canvas.width  = '460'
-    @canvas.height = '460'
+    @canvas.width  = '620'
+    @canvas.height = '465'
 
     # set up view components
     @playerListing = new Cartridge.Views.PlayerListing

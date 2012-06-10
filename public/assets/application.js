@@ -14753,8 +14753,8 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       this.crtrg = crtrg;
       this.canvas = document.getElementById('game-canvas');
       this.context = this.canvas.getContext('2d');
-      this.canvas.width = '460';
-      this.canvas.height = '460';
+      this.canvas.width = '620';
+      this.canvas.height = '465';
       this.playerListing = new Cartridge.Views.PlayerListing({
         collection: this.crtrg.players,
         id: 'user-listing',
