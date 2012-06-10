@@ -1,6 +1,22 @@
 @import "twitter/bootstrap/variables.less";
 @import "twitter/bootstrap/mixins.less";
 
+.game-listing {
+  .name {
+    font-size: 28px;
+    line-height: 32px;
+    color: @grayDark;
+    small {
+      font-size: 16px;
+      color: @grayLight;
+    }
+  }
+  .links {
+    font-size: 16px;
+    color: @grayLight;
+  }
+}
+
 #message-listing, #user-listing {
   .current { color: @blue; }
   .other   { color: @green; }

@@ -21,39 +21,15 @@
 
         #code-sample{:style => 'display:none'}
           %pre
-            %code
-              :plain
-                var Hello = function(cartridge) {
-                  // the cartridge API
-                  this.cartridge = cartridge;
+            %code= render :partial => 'sample_game'
+    .row
+      .span3.offset2
+        %h3 Configuration
 
-                  // respond to changed state
-                  this.cartridge.on('change', this.draw, this);
+    .control-group
+      = f.label :remixable, "Allow remixes", class: 'control-label'
+      .controls
+        = f.check_box :remixable
 
-                  // set some data
-                  this.cartridge.set(this.cartridge.id, "hello world, I am "+this.cartridge.id);
-
-                  // connect to the cartridge UI elements
-                  this.ui = cartridge.ui;
-
-                  // the game canvas
-                  this.canvas  = this.ui.canvas;
-
-                  // the game canvas' 2d context
-                  this.context = this.ui.context;
-                }
-
-                Hello.prototype = {
-                  draw: function() {
-                    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                    var y = 0;
-                    this.cartridge.each(function(obj, id) {
-                      y += 16;
-                      this.context.fillText(obj, 0, y);
-                    }, this);
-                  }
-                };
-
-                Cartridge.boot(Hello)
     .form-actions
       = f.submit 'Save', class: 'btn btn-success btn-large'

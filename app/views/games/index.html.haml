@@ -1,24 +1,31 @@
 .container
   .row
     .span12
-      %h1.row
-        .span4
-          Games on Cartridge
-        %small.span8
-          = link_to 'Build a Game', new_game_path, :class => 'btn btn-primary btn-large'
-      %hr
+      .page-header
+        %h1.row
+          .span4
+            Games on Cartridge
+          %small.span8
+            = link_to 'Build a Game', new_game_path, :class => 'btn btn-primary btn-large'
 
-      - @games.each do |game|
-        %h2
-          = link_to game_path(game) do
-            = game.title
-            %small
-              by #{game.creator.username}
-          - if current_user == game.creator
-            %small
-              (
-              = link_to 'Edit', edit_game_path(game)
-              &middot;
-              = link_to 'Destroy', game, :confirm => 'Are you sure?', :method => :delete
-              )
-
+      .game-listing
+        - @games.each do |game|
+          .game
+            %span.name
+              = link_to game.title, game_path(game)
+              %small
+                - if game.is_a_remix? && game.original
+                  a remix of
+                  = link_to game.original.title, game_path(game), class: 'original-link'
+                by #{game.creator.username}
+            %span.links
+              - if current_user == game.creator
+                (
+                = link_to 'Edit', edit_game_path(game)
+                &middot;
+                = link_to 'Destroy', game, confirm: 'Are you sure you want to delete the game?', method: :delete
+                )
+              - elsif game.remixable?
+                (
+                = link_to 'remix this', remix_game_path(game), method: :post
+                )
