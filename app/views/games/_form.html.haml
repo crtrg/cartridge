@@ -11,49 +11,61 @@
       = f.label :title, class: 'control-label'
       .controls
         = f.text_field :title, class: 'span4'
-    .control-group
-      = f.label :package, class: 'control-label'
-      .controls
-        = f.text_area :package, class: 'span10'
+    = f.text_area :package
+    .package-container
+      %pre#package
+        :preserve
+          #{@game.package}
+      :javascript
+        $(function() {
+          var editor = ace.edit('package');
+          editor.session.setMode("ace/mode/javascript");
+          editor.getSession().setTabSize(2);
+          editor.getSession().setUseSoftTabs(true);
+          $('#game_package').hide();
+          $('form').on('submit', function(e) {
+            $('#game_package').val(editor.getSession().getValue());
+          });
+        });
 
-        %p
-          %a{onclick: "$('#code-sample').toggle()"} example
+    %p
+      %a{onclick: "$('#code-sample').toggle()"} example
 
-        #code-sample{:style => 'display:none'}
-          %pre
-            %code
-              :plain
-                var Hello = function(cartridge) {
-                  // the cartridge API
-                  this.cartridge = cartridge;
+    #code-sample{:style => 'display:none'}
+      %pre
+        %code
+          :plain
+            var Hello = function(cartridge) {
+              // the cartridge API
+              this.cartridge = cartridge;
 
-                  // respond to changed state
-                  this.cartridge.on('change', this.draw, this);
+              // respond to changed state
+              this.cartridge.on('change', this.draw, this);
 
-                  // set some data
-                  this.cartridge.set(this.cartridge.id, "hello world, I am "+this.cartridge.id);
+              // set some data
+              this.cartridge.set(this.cartridge.id, "hello world, I am "+this.cartridge.id);
 
-                  // connect to the cartridge UI elements
-                  this.ui = cartridge.ui;
+              // connect to the cartridge UI elements
+              this.ui = cartridge.ui;
 
-                  // the game canvas
-                  this.canvas  = this.ui.canvas;
+              // the game canvas
+              this.canvas  = this.ui.canvas;
 
-                  // the game canvas' 2d context
-                  this.context = this.ui.context;
-                }
+              // the game canvas' 2d context
+              this.context = this.ui.context;
+            }
 
-                Hello.prototype = {
-                  draw: function() {
-                    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                    var y = 0;
-                    this.cartridge.each(function(obj, id) {
-                      y += 16;
-                      this.context.fillText(obj, 0, y);
-                    }, this);
-                  }
-                };
+            Hello.prototype = {
+              draw: function() {
+                this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                var y = 0;
+                this.cartridge.each(function(obj, id) {
+                  y += 16;
+                  this.context.fillText(obj, 0, y);
+                }, this);
+              }
+            };
 
-                Cartridge.boot(Hello)
+            Cartridge.boot(Hello)
     .form-actions
       = f.submit 'Save', class: 'btn btn-success btn-large'

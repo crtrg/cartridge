@@ -16,5 +16,6 @@
 //= require underscore
 //= require twitter/bootstrap
 //= require backbone
+//= require ace/ace
 //= require init
 //= require_tree .
