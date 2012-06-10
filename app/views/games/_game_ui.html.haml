@@ -3,7 +3,12 @@
     .span8
       -# game UI controlled by Cartridge.UI
       %canvas#game-canvas
-      #game-status
+      .row
+        .span4
+          #game-status
+        .span4
+          Share a link to this game:
+          = link_to game_url(@game), game_url(@game)
 
     .span4
       -# chat UI controlled by Cartridge.Page
