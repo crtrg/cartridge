@@ -66,7 +66,7 @@ class GamesController < ApplicationController
   end
 
   def only_creators
-    if !current_user.creator
+    if params[:push_token].blank? && !current_user.creator
       flash[:error] = "We're sorry, your account has not be authorized to create games yet. Contact us on twitter <a href='http://twitter.com/crtrg'>@crtrg</a>"
       redirect_to games_path
     end
