@@ -3,14 +3,16 @@ Cartridge.boot = (game) ->
   # console.log('booting', game)
   ws       = new WebSocket Cartridge.config().socketUrl
   userId   = Cartridge.config().userId
+  username = Cartridge.config().username
   io       = new Cartridge.IO(ws, userId)
 
   io.on 'init', =>
     console.log('init!, booting')
     new game(io)
+    $(io.ui.canvas).focus();
 
   ws.onopen = (evt) ->
-    $('#game-status').text "connected as #{userId}"
+    $('#game-status').text "connected as #{username}"
 
   ws.onclose = (evt) ->
     $('#game-status').text 'disconnected. reconnecting ...'
@@ -18,7 +20,7 @@ Cartridge.boot = (game) ->
       Cartridge.boot(game)
     , 500
 
-# connect to chat socket and fire up UI
+# connect to chat socket and fire up page chrome
 Cartridge.startUI = ->
   ws       = new WebSocket Cartridge.config().chatUrl
   userId   = Cartridge.config().userId

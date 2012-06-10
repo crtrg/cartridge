@@ -11,6 +11,7 @@ class GamesController < ApplicationController
 
   def show
     @token = current_user.try(:id) || "guest_#{(rand*100000000).floor}"
+    @username = current_user.try(:username) || @token
     @game = Game.find(params[:id])
   end
 

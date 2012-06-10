@@ -10,16 +10,7 @@
   -# load some game libs
 
   -# Step 0: Config cartridge
-  :javascript
-    Cartridge.config({
-      socketUrl: "ws://#{ENV['SOCKET_URL']}/game/#{@game.id}/singleton/#{@token}",
-      chatUrl:   "ws://#{ENV['SOCKET_URL']}/chat/#{@game.id}/singleton/#{@token}",
-      userId: "#{@token}"
-    })
-
-  -# load Cartridge chrome js
-  :javascript
-    Cartridge.startUI();
+  = render :partial => 'cartridge_init'
 
   -# load user's js
   :javascript
