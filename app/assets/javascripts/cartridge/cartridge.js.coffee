@@ -4,6 +4,7 @@ Cartridge.boot = (game) ->
   ws       = new WebSocket Cartridge.config().socketUrl
   userId   = Cartridge.config().userId
   io       = new Cartridge.IO(ws, userId)
+
   io.on 'init', =>
     console.log('init!, booting')
     new game(io)

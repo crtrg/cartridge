@@ -1,6 +1,14 @@
 = render :partial => 'game_ui'
 
--content_for :foot do
+- content_for :navbar do
+  %ul.nav.pull-left
+    - if @game.creator == current_user
+      %li.edit-link
+        = link_to 'edit this game', edit_game_path(@game)
+
+- content_for :foot do
+  -# load some game libs
+
   -# Step 0: Config cartridge
   :javascript
     Cartridge.config({
@@ -15,4 +23,10 @@
 
   -# load user's js
   :javascript
-    #{@game.package}
+    $(function () {
+      try {
+        #{@game.package}
+      } catch (ex) {
+      console.error(ex.message);
+      }
+    });
