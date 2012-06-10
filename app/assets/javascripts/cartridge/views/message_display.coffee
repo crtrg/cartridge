@@ -1,4 +1,16 @@
 class Cartridge.Views.MessageDisplay extends Backbone.View
+  messageTemplate: _.template("""
+      <div class='message'>
+        <div class='username <%= cls %>'>
+          <%= username %>
+        </div>
+        <%= message %>
+      </div>
+  """)
+
+  renderMessage: (json) ->
+    @messageTemplate json
+
   initialize: (options) ->
     @cartridge = options.cartridge
     @collection.on 'reset', @render, this
@@ -6,14 +18,11 @@ class Cartridge.Views.MessageDisplay extends Backbone.View
     @render()
 
   render: ->
-    console.log 'messages...'
     @$el.empty()
     @collection.each (message) =>
       @addMessage(message)
 
   addMessage: (message) ->
-    console.log 'add message', message
-
     if message.get('username') == 'system'
       cls = 'system'
     else if message.get('user_id').toString() == @cartridge.id.toString()
@@ -21,12 +30,12 @@ class Cartridge.Views.MessageDisplay extends Backbone.View
     else
       cls = 'other'
 
-    @$el.append """
-      <p>
-        <small class='#{cls}'>#{ message.get('username') }</small><br>
-        #{ message.get('message') }
-      </p>
-    """
+    json =
+      cls: cls
+      message: message.get('message')
+      username: message.get('username')
+
+    @$el.append @renderMessage(json)
 
     # too many secrets
     $('#chat-wrapper').scrollTop @$el.height()

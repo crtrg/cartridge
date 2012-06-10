@@ -4,6 +4,7 @@ class GamesController < ApplicationController
   skip_before_filter :verify_authenticity_token, :if =>lambda{ params[:push_token].present?}, :only => [:update]
   before_filter :load_and_authorize_game, :only => [:edit, :update, :destroy]
   before_filter :only_creators, :only => [:new, :edit, :create, :update, :destroy]
+
   def index
     @games = Game.all
   end

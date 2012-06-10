@@ -29,3 +29,8 @@ Cartridge.dir = (object) ->
 
 Cartridge.error = (message) ->
   console.error message if console?
+
+Cartridge.pluralize = (n, word) ->
+  pluralized = "#{ word }#{ if n == 1 then '' else 's' }"
+  "#{ n } #{ pluralized }"
+
