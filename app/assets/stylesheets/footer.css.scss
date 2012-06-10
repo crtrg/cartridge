@@ -19,7 +19,7 @@ $footerOffset: 140px;
 }
 
 #footer, #footer-push {
-  height: $footerOffset;
+  height: $navOffset+$footerOffset;
   padding-top: 48px;
 }
 
