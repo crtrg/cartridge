@@ -32,6 +32,13 @@
               %li= link_to('Login', new_user_session_path)
 
     #wrapper
+      - [:error, :success, :info].each do |kind|
+        - if flash[kind]
+          .container
+            %div{class: "alert alert-#{kind} span8 offset2"}
+              %button.close{'type' => 'button', 'data-dismiss' => 'alert'}
+                x
+              = flash[kind].html_safe
       = yield
       #footer-push
 
