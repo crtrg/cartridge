@@ -20,7 +20,6 @@ Cartridge.namespace = (args...) ->
   return obj
 
 Cartridge.log = () ->
-  # console.log message
   if window.DEBUG
     console.log(arguments)
 

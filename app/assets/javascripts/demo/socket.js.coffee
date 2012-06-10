@@ -11,4 +11,3 @@ window.SocketDemo = () ->
     catch ex
       Cartridge.error ex.message
     Cartridge.dir(evt)
-  console.log("setup")
