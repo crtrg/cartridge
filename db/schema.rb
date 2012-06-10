@@ -11,15 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120610145556) do
+ActiveRecord::Schema.define(:version => 20120610163151) do
 
   create_table "games", :force => true do |t|
-    t.string   "title",      :null => false
-    t.integer  "creator_id", :null => false
-    t.text     "package",    :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "push_token", :null => false
+    t.string   "title",       :null => false
+    t.integer  "creator_id",  :null => false
+    t.text     "package",     :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "push_token",  :null => false
+    t.boolean  "remixable"
+    t.boolean  "is_a_remix"
+    t.integer  "original_id"
   end
 
   create_table "users", :force => true do |t|

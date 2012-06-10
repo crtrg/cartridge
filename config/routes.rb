@@ -1,5 +1,10 @@
 Cartridge::Application.routes.draw do
-  resources :games
+  resources :games do
+    member do
+      post :remix
+      # :remix, :method => :post
+    end
+  end
 
   match '/socketapp.js' => 'socket_js#script', :as => :socket_app
 

@@ -57,6 +57,28 @@ class GamesController < ApplicationController
     redirect_to games_url
   end
 
+  # takes game_id, clones to current user
+  def remix
+    @to_clone = Game.find params[:id]
+    if @to_clone.remixable?
+      @game = Game.new
+
+      @game.package    = @to_clone.package
+      @game.title      = @to_clone.title
+      @game.remixable  = true
+      @game.is_a_remix = true
+      @game.original   = @to_clone
+      @game.creator    = current_user
+
+      if @game.save
+        flash[:success] = 'Game was successfully created.'
+        redirect_to edit_game_path(@game)
+      else
+        redirect_to games_path
+      end
+    end
+  end
+
   private
   def load_and_authorize_game
     @game = Game.find(params[:id])
