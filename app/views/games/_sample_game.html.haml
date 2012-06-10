@@ -1,33 +1,60 @@
 :plain
-  var Hello = function(cartridge) {
-    // the cartridge API
+  DemoGame = function(cartridge) {
+    // the Cartridge API
     this.cartridge = cartridge;
 
-    // respond to changed state
+    // the Cartridge UI helper. Gives access to the canvas element your game
+    // will appear on.
+    this.ui = this.cartridge.ui;
+
+    // the 2d canvas drawing context
+    this.context = this.ui.context;
+
+    // the canvas itself
+    this.canvas = this.ui.canvas;
+
+    // initialize player position
+    this.setMyLocation(0, 0);
+
+    // update UI whenever Cartridge updates world state
     this.cartridge.on('change', this.draw, this);
 
-    // set some data
-    this.cartridge.set(this.cartridge.id, "hello world, I am "+this.cartridge.id);
-
-    // connect to the cartridge UI elements
-    this.ui = cartridge.ui;
-
-    // the game canvas
-    this.canvas  = this.ui.canvas;
-
-    // the game canvas' 2d context
-    this.context = this.ui.context;
-  }
-
-  Hello.prototype = {
-    draw: function() {
-      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      var y = 0;
-      this.cartridge.each(function(obj, id) {
-        y += 16;
-        this.context.fillText(obj, 0, y);
-      }, this);
-    }
+    // set my location about 1000 / 60 times a second.
+    $(this.canvas).on('mousemove', _.throttle(_.bind(this.updateUI, this), 60));
   };
 
-  Cartridge.boot(Hello)
+  DemoGame.prototype = {
+
+    updateUI: function(evt) {
+      this.setMyLocation(evt.offsetX, evt.offsetY);
+    },
+
+    setMyLocation: function(x, y) {
+      this.cartridge.set(this.cartridge.id, { x: x, y: y });
+    },
+
+    draw: function() {
+      // clear the screen
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+      // draw all the players
+      return this.cartridge.each(function(object, id) {
+
+        // draw everyone else this way
+        var color = '#f0f', size = 10;
+
+        // draw me this way
+        if (id === this.cartridge.id) {
+          color = '#0f0', size = 30;
+        }
+
+        this.context.fillStyle = color;
+        this.drawShape(object.x, object.y, size);
+      }, this);
+    },
+
+    drawShape: function(x, y, w) {
+      this.context.fillRect(x-w/2, y-w/2, w, w);
+    }
+  };
+  Cartridge.boot(DemoGame);

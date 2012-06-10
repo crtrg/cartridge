@@ -2,9 +2,11 @@
 
 - content_for :navbar do
   %ul.nav.pull-left
-    - if @game.creator == current_user
-      %li.edit-link
-        = link_to 'edit this game', edit_game_path(@game)
+    - if user_signed_in?
+      - if @game.creator == current_user
+        %li= link_to 'edit this game', edit_game_path(@game)
+      - elsif @game.remixable?
+        %li= link_to 'remix this game', remix_game_path(@game), method: :post
 
 - content_for :foot do
   -# load some game libs
