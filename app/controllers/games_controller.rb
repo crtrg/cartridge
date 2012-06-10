@@ -2,6 +2,7 @@
 class GamesController < ApplicationController
   before_filter :authenticate_user!, :only => [:new, :edit, :create, :destroy]
   skip_before_filter :verify_authenticity_token, :if =>lambda{ params[:push_token].present?}, :only => [:update]
+  before_filter :load_and_authorize_game, :only => [:edit, :update, :destroy]
   def index
     @games = Game.all
   end
@@ -16,7 +17,6 @@ class GamesController < ApplicationController
   end
 
   def edit
-    @game = Game.find(params[:id])
   end
 
   def create
@@ -32,28 +32,33 @@ class GamesController < ApplicationController
   # Supports curl. For example:
   # curl -X PUT http://crtrg.com/games/1 -F push_token=abc123etc -F package=@file.js
   def update
-    @game = Game.find(params[:id])
-    if params[:push_token] != @game.push_token
-      authenticate_user!
-      if @game.update_attributes(params[:game])
-        redirect_to @game, notice: 'Game was successfully updated.'
-      else
-        render action: "edit"
-      end
-    else
+    if params[:push_token]
       @game.package = params[:package].read
       if @game.save
         render :text => "game updated\n"
       else
         render :text => @game.errors.full_messages.join("\n")+"\n"
       end
+    else
+      authenticate_user!
+      if @game.update_attributes(params[:game])
+        redirect_to @game, notice: 'Game was successfully updated.'
+      else
+        render action: "edit"
+      end
     end
   end
 
   def destroy
-    @game = Game.find(params[:id])
     @game.destroy
-
     redirect_to games_url
+  end
+
+  private
+  def load_and_authorize_game
+    @game = Game.find(params[:id])
+    if params[:push_token] != @game.push_token && @game.creator != current_user
+      redirect_to games_path
+    end
   end
 end
