@@ -21,6 +21,10 @@
           = f.label :password, :class => 'control-label'
           .controls
             = f.password_field :password
+            %p.help-block
+              Our passwords are encrypted with bcrypt level 10.
+              %br
+              Your secret is safe with us!
 
 
         .control-group
