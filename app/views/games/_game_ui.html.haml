@@ -1,5 +1,9 @@
 .container
   .row
+    .span12
+      .page-header
+        %h2= @game.title
+  .row
     .span8
       -# game UI controlled by Cartridge.UI
       %canvas#game-canvas
