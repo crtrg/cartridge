@@ -8,7 +8,6 @@ class DemoGame
 
     update_ui = _.throttle( ((evt) => @updateUI(evt)), 60 )
     $(@canvas).on 'mouseover', (evt) ->
-      console.log 'updating'
       update_ui evt
 
     @ui = @cartridge.ui
@@ -33,7 +32,6 @@ class DemoGame
   draw: ->
     @context.clearRect 0, 0, @canvas.width, @canvas.height
     @cartridge.each (object, id) =>
-      # console.log('draw', id, object)
       if id == @cartridge.id
         @context.fillStyle = '#0f0'
         @drawShape object.x, object.y, 30

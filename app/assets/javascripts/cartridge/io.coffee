@@ -7,7 +7,6 @@ class Cartridge.IO
 
     @game_socket.onmessage = (event) =>
       data = JSON.parse(event.data)
-      # console.log("received '#{data["method"]}' with", data)
       switch data.method
         when 'init'
           @state = data.state
@@ -29,11 +28,8 @@ class Cartridge.IO
           @trigger('change')
         when 'delete'
           delete @state[data.args[0]]
-        else
-          console.log("[IO] Can't handle", data.method, data, typeof(data))
 
   set: (key, value) ->
-    # console.log('Cartridge::IO#set', arguments)
     @game_socket.send JSON.stringify(
       method: 'set'
       args: [key, value]

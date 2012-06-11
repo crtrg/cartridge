@@ -8,7 +8,6 @@ class Cartridge.Chat
 
     @chat_socket.onmessage = (event) =>
       data = JSON.parse(event.data)
-      # console.log("received '#{data["method"]}' with", data)
       switch data.method
         when 'init'
           @players.reset  data.players
