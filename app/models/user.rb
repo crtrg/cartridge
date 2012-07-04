@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
   before_create :set_creator
 
   private
+
+  # anyone opening an account after June 11 has to get explicit permission to become a creator
   def set_creator
     self.creator = Time.now < Time.parse("June 11, 2012")
   end
