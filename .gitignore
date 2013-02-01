@@ -16,3 +16,5 @@
 
 /.env
 /config/database.yml
+.DS_Store
+.rake_tasks~
