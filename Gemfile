@@ -4,7 +4,7 @@ gem 'foreman'
 gem 'em-websocket'
 gem 'haml'
 gem 'haml-rails'
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.12'
 gem 'pg'
 gem 'therubyracer', :platforms => :ruby
 gem 'devise'
