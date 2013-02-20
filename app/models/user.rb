@@ -15,8 +15,8 @@ class User < ActiveRecord::Base
 
   validates_presence_of :username
   validates_exclusion_of :username, :in => %w( admin superuser system ), :message => "Sorry, that name is reserved :("
+  before_validation_on_create :set_creator
   profanity_filter :username
-  before_create :set_creator
 
   private
 
